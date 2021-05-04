@@ -60,9 +60,9 @@ class MainActivity : AppCompatActivity() {
         subject = "NENHUMA AULA NESSE DIA"
 
         when (this.getWeek(dataFormatada.toString())) {
-            "SEG" -> subject = "Aula do dia: LINGUAGENS FORMAIS E AUTÔNOMAS"
-            "TER" -> subject = "Aula do dia: TRABALHO DE GRADUAÇÃO INTERDICIPLINAR"
-            "QUAR" -> subject = "Aula do dia: PROGRAMAÇÃO PARA DISPOSITIVOS MOVEIS"
+            "SEGUNDA" -> subject = "LINGUAGENS FORMAIS E AUTÔMATOS"
+            "TERÇA" -> subject = "TRABALHO DE GRADUAÇÃO INTERDISCIPLINAR I"
+            "QUARTA" -> subject = "PROGRAMAÇÃO PARA DISPOSITIVOS MÒVEIS"
             else -> {
                 off = 0;
             }
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             off = 0;
         }
 
-        off = 1;
+        // off = 1;
 
         if(off == 0) {
             btn.isInvisible = true;
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         txt.setText(subject)
-        txtDate.setText(formataDataHora.format(data).toString())
+        txtDate.setText(this.getWeek(dataFormatada.toString()) + " " +formataDataHora.format(data).toString())
 
     }
 
@@ -113,13 +113,13 @@ class MainActivity : AppCompatActivity() {
         try {
             gc.time = SimpleDateFormat("dd/MM/yyyy").parse(date)
             when (gc[Calendar.DAY_OF_WEEK]) {
-                Calendar.SUNDAY -> dayWeek = "DOM"
-                Calendar.MONDAY -> dayWeek = "SEG"
-                Calendar.TUESDAY -> dayWeek = "TER"
-                Calendar.WEDNESDAY -> dayWeek = "QUA"
-                Calendar.THURSDAY -> dayWeek = "QUI"
-                Calendar.FRIDAY -> dayWeek = "SEX"
-                Calendar.SATURDAY -> dayWeek = "SAB"
+                Calendar.SUNDAY -> dayWeek = "DOMINGO"
+                Calendar.MONDAY -> dayWeek = "SEGUINDA"
+                Calendar.TUESDAY -> dayWeek = "TERÇA"
+                Calendar.WEDNESDAY -> dayWeek = "QUARTA"
+                Calendar.THURSDAY -> dayWeek = "QUINTA"
+                Calendar.FRIDAY -> dayWeek = "SEXTZ"
+                Calendar.SATURDAY -> dayWeek = "SABADO"
             }
         } catch (e: ParseException) {
             e.printStackTrace()

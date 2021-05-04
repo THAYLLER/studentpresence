@@ -18,7 +18,7 @@ class signin : AppCompatActivity() {
         val password: TextInputEditText = findViewById(R.id.password) as TextInputEditText
         val username: TextInputEditText = findViewById(R.id.username) as TextInputEditText
 
-        val user =  arrayOf("123", "1234", "12345");
+        val user =  arrayOf("19425864", "19329792", "19229704", "19161662", "18815545", "19652135");
         val pass =  arrayOf("123", "1234", "12345");
         var ok: Boolean = false;
 

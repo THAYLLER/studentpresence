@@ -51,9 +51,9 @@ class success : AppCompatActivity() {
 
 
         when (this.getWeek(dataFormatada.toString())) {
-            "SEG" -> subject = "Aula do dia: LINGUAGENS FORMAIS E AUTÔNOMAS"
-            "TER" -> subject = "Aula do dia: TRABALHO DE GRADUAÇÃO INTERDICIPLINAR"
-            "QUAR" -> subject = "Aula do dia: PROGRAMAÇÃO PARA DISPOSITIVOS MOVEIS"
+            "SEG" -> subject = "LINGUAGENS FORMAIS E AUTÔNOMAS"
+            "TER" -> subject = "TRABALHO DE GRADUAÇÃO INTERDICIPLINAR"
+            "QUAR" -> subject = "PROGRAMAÇÃO PARA DISPOSITIVOS MOVEIS"
 
         }
 
@@ -70,7 +70,7 @@ class success : AppCompatActivity() {
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
             val textLocation: TextView = findViewById(R.id.textLocation) as TextView
-            textLocation.setText(location.latitude.toString() + "-"+ location.longitude.toString())
+            textLocation.setText("Latitude:" + location.latitude.toString() + " Logintude: "+ location.longitude.toString())
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
