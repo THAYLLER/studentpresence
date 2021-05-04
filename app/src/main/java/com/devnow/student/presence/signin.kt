@@ -33,10 +33,10 @@ class signin : AppCompatActivity() {
                         ok = false;
                     }
                 }
+                break;
             } else {
                 ok = false;
             }
-            break;
         }
 
 

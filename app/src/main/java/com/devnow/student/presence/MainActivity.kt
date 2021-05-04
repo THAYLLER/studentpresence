@@ -47,9 +47,11 @@ class MainActivity : AppCompatActivity() {
 
         var off = 1
         val formataData = SimpleDateFormat("dd/MM/yyyy")
-        val formataDataHora  = SimpleDateFormat("dd/MM/yyyy hh:mm:ss")
+        val formataDataHora  = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+        val hour = SimpleDateFormat("HH:mm:ss")
 
         val dataFormatada: String = formataData.format(data)
+        val horaFormatada: String = hour.format(data)
         val day = getWeek(dataFormatada.toString());
 
         val txt: TextView = findViewById(R.id.textSubject) as TextView
@@ -58,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         val btn: Button = findViewById(R.id.button) as Button;
 
         subject = "NENHUMA AULA NESSE DIA"
+        var msg = ""
 
         when (this.getWeek(dataFormatada.toString())) {
             "SEGUNDA" -> subject = "LINGUAGENS FORMAIS E AUTÔMATOS"
@@ -65,7 +68,16 @@ class MainActivity : AppCompatActivity() {
             "QUARTA" -> subject = "PROGRAMAÇÃO PARA DISPOSITIVOS MÒVEIS"
             else -> {
                 off = 0;
+                msg = "motivo: Só é possível marcar presença no dia da aula\n"
+
             }
+        }
+
+        if(horaFormatada.toString() == "19:10:00" || horaFormatada.toString() == "20:35:00") {
+            off = 1;
+        } else {
+            off = 0;
+            msg = "Só é possível marcar presença no horário da aula\n"
         }
 
         if(dist[0].toDouble() == (1000000).toDouble()) {
@@ -74,15 +86,17 @@ class MainActivity : AppCompatActivity() {
                 off = 1;
             }else {
                 off = 0;
+                msg = "Não é possível marcar presença fora da localização da Unicid"
             }
         }else {
             off = 0;
+            msg = "Não é possível marcar presença fora da localização da Unicid"
         }
 
 
         if(off == 0) {
             btn.isInvisible = true;
-            txtInfo.setText("Você não pode registrar presença hoje volte outro dia")
+            txtInfo.setText(msg)
         }
 
         txt.setText(subject)
