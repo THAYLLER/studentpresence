@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         var off = 1
         val formataData = SimpleDateFormat("dd/MM/yyyy")
+        val formataDataHora  = SimpleDateFormat("dd/MM/yyyy hh:mm:ss")
 
         val dataFormatada: String = formataData.format(data)
         val day = getWeek(dataFormatada.toString());
@@ -78,13 +79,15 @@ class MainActivity : AppCompatActivity() {
             off = 0;
         }
 
+        off = 1;
+
         if(off == 0) {
             btn.isInvisible = true;
             txtInfo.setText("Você não pode registrar presença hoje volte outro dia")
         }
 
         txt.setText(subject)
-        txtDate.setText(data.toString())
+        txtDate.setText(formataDataHora.format(data).toString())
 
     }
 
