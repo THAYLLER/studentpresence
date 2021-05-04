@@ -79,7 +79,6 @@ class MainActivity : AppCompatActivity() {
             off = 0;
         }
 
-        off = 1;
 
         if(off == 0) {
             btn.isInvisible = true;
