@@ -9,9 +9,9 @@ android {
 
     defaultConfig {
         applicationId "com.devnow.student.presence"
-        minSdkVersion 23
+        minSdkVersion 25
         //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 30
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 
