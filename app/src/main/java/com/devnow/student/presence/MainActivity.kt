@@ -15,7 +15,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isInvisible
+import com.squareup.okhttp.internal.Platform
+import java.util.Calendar
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,7 +26,7 @@ private var locationManager : LocationManager? = null
 private val locationPermissionCode = 2
 var off = 1
 val dist = FloatArray(1)
-val data = Date()
+val data =  Calendar.getInstance().getTime();
 var subject = ""
 var msg = ""
 
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
@@ -75,29 +77,35 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //Validação de horario
-        //Nessa validação  é verificado se ta dentro do horario da aula
-        if(horaFormatada.toString() == "19:10:00" || horaFormatada.toString() == "20:35:00") {
-            off = 1;
-        } else {
-            off = 0;
-            msg = "Só é possível marcar presença no horário da aula\n"
+        if(off == 1) {
+            //Validação de horario
+            //Nessa validação  é verificado se ta dentro do horario da aula
+            var dMin = hour.parse("19:10:00")
+            var dMax = hour.parse("20:35:00")
+            if(horaFormatada >= hour.format(dMin).toString() && horaFormatada <= hour.format(dMax).toString() ) {
+                off = 1;
+            } else {
+                off = 0;
+                msg = "Só é possível marcar presença no horário da aula\n"
+            }
         }
 
-        //validação de localização
-        //Aqui é verificado se ta proximo da localização da faculdade
-//        if(dist[0].toDouble() == (1000000).toDouble()) {
-//            if (dist[0] / 1000 > 1) {
-//
-//                off = 1;
-//            }else {
-//                off = 0;
-//                msg = "Não é possível marcar presença fora da localização da Unicid"
-//            }
-//        }else {
-//            off = 0;
-//            msg = "Não é possível marcar presença fora da localização da Unicid"
-//        }
+        if(off == 1) {
+            //validação de localização
+            //Aqui é verificado se ta proximo da localização da faculdade
+    //        if(dist[0].toDouble() == (1000000).toDouble()) {
+    //            if (dist[0] / 1000 > 1) {
+    //
+    //                off = 1;
+    //            }else {
+    //                off = 0;
+    //                msg = "Não é possível marcar presença fora da localização da Unicid"
+    //            }
+    //        }else {
+    //            off = 0;
+    //            msg = "Não é possível marcar presença fora da localização da Unicid"
+    //        }
+        }
 
 
 
@@ -148,7 +156,7 @@ class MainActivity : AppCompatActivity() {
         val dataDay = ArrayList<String>();
         val txtInfo: TextView = findViewById(R.id.textInfo) as TextView
 
-        if(off == 1) {
+        if(off != 0) {
             dataMatter.add(subject);
             dataDay.add(data.toString());
             val success = Intent(this, success::class.java)

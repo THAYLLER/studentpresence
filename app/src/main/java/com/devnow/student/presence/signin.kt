@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.google.android.material.textfield.TextInputEditText
-import com.google.gson.Gson
-import org.jetbrains.anko.doAsync
+
 
 class signin : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,22 +21,28 @@ class signin : AppCompatActivity() {
         val pass =  arrayOf("123", "1234", "12345");
         var ok: Boolean = false;
 
-        for(i in user.indices) {
-            print(user[i]);
-            if(username.text.toString() == user[i].toString()) {
-                for(j in pass.indices) {
-                    if(password.text.toString() == pass[j].toString()) {
-                        ok = true;
-                        break;
-                    } else {
-                        ok = false;
+        if(username.text.toString() == "") {
+            ok = true;
+        } else {
+            for(i in user.indices) {
+                print(user[i]);
+                if(username.text.toString() == user[i].toString()) {
+                    for(j in pass.indices) {
+                        if(password.text.toString() == pass[j].toString()) {
+                            ok = true;
+                            break;
+                        } else {
+                            ok = false;
+                        }
                     }
+                    break;
+                } else {
+                    ok = false;
                 }
-                break;
-            } else {
-                ok = false;
             }
         }
+
+
 
 
 

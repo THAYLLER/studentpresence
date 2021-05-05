@@ -33,9 +33,9 @@ class success : AppCompatActivity() {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationPermissionCode)
         }
-        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+        locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
 
-        val data = Date()
+        val data = Calendar.getInstance().getTime()
         val formataData = SimpleDateFormat("dd/MM/yyyy")
 
         val dataFormatada: String = formataData.format(data)
@@ -86,7 +86,7 @@ class success : AppCompatActivity() {
                 Calendar.SUNDAY -> dayWeek = "DOM"
                 Calendar.MONDAY -> dayWeek = "SEG"
                 Calendar.TUESDAY -> dayWeek = "TER"
-                Calendar.WEDNESDAY -> dayWeek = "QUA"
+                Calendar.WEDNESDAY -> dayWeek = "QUAR"
                 Calendar.THURSDAY -> dayWeek = "QUI"
                 Calendar.FRIDAY -> dayWeek = "SEX"
                 Calendar.SATURDAY -> dayWeek = "SAB"
