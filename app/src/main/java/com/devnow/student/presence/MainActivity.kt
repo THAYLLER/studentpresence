@@ -27,6 +27,7 @@ var off = 1
 val dist = FloatArray(1)
 val data = Date()
 var subject = ""
+var msg = ""
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("WrongConstant")
@@ -56,23 +57,26 @@ class MainActivity : AppCompatActivity() {
 
         val txt: TextView = findViewById(R.id.textSubject) as TextView
         val txtDate: TextView = findViewById(R.id.textDate) as TextView
-        val txtInfo: TextView = findViewById(R.id.textInfo) as TextView
         val btn: Button = findViewById(R.id.button) as Button;
 
         subject = "NENHUMA AULA NESSE DIA"
-        var msg = ""
 
+
+        // validação dos dias da semana
+        // Nessa Validação é verificado se você ta no dia da aula
         when (this.getWeek(dataFormatada.toString())) {
             "SEGUNDA" -> subject = "LINGUAGENS FORMAIS E AUTÔMATOS"
             "TERÇA" -> subject = "TRABALHO DE GRADUAÇÃO INTERDISCIPLINAR I"
             "QUARTA" -> subject = "PROGRAMAÇÃO PARA DISPOSITIVOS MÒVEIS"
             else -> {
                 off = 0;
-                msg = "motivo: Só é possível marcar presença no dia da aula\n"
+                msg = "Só é possível marcar presença no dia da aula\n"
 
             }
         }
 
+        //Validação de horario
+        //Nessa validação  é verificado se ta dentro do horario da aula
         if(horaFormatada.toString() == "19:10:00" || horaFormatada.toString() == "20:35:00") {
             off = 1;
         } else {
@@ -80,23 +84,23 @@ class MainActivity : AppCompatActivity() {
             msg = "Só é possível marcar presença no horário da aula\n"
         }
 
-        if(dist[0].toDouble() == (1000000).toDouble()) {
-            if (dist[0] / 1000 > 1) {
+        //validação de localização
+        //Aqui é verificado se ta proximo da localização da faculdade
+//        if(dist[0].toDouble() == (1000000).toDouble()) {
+//            if (dist[0] / 1000 > 1) {
+//
+//                off = 1;
+//            }else {
+//                off = 0;
+//                msg = "Não é possível marcar presença fora da localização da Unicid"
+//            }
+//        }else {
+//            off = 0;
+//            msg = "Não é possível marcar presença fora da localização da Unicid"
+//        }
 
-                off = 1;
-            }else {
-                off = 0;
-                msg = "Não é possível marcar presença fora da localização da Unicid"
-            }
-        }else {
-            off = 0;
-            msg = "Não é possível marcar presença fora da localização da Unicid"
-        }
 
 
-        if(off == 0) {
-            txtInfo.setText(msg)
-        }
 
         txt.setText(subject)
         txtDate.setText(this.getWeek(dataFormatada.toString()) + " " +formataDataHora.format(data).toString())
@@ -130,8 +134,8 @@ class MainActivity : AppCompatActivity() {
                 Calendar.TUESDAY -> dayWeek = "TERÇA"
                 Calendar.WEDNESDAY -> dayWeek = "QUARTA"
                 Calendar.THURSDAY -> dayWeek = "QUINTA"
-                Calendar.FRIDAY -> dayWeek = "SEXTZ"
-                Calendar.SATURDAY -> dayWeek = "SABADO"
+                Calendar.FRIDAY -> dayWeek = "SEXTA"
+                Calendar.SATURDAY -> dayWeek = "SÁBADO"
             }
         } catch (e: ParseException) {
             e.printStackTrace()
@@ -142,12 +146,16 @@ class MainActivity : AppCompatActivity() {
     fun handleSubmit(view: View) {
         val dataMatter = ArrayList<String>();
         val dataDay = ArrayList<String>();
+        val txtInfo: TextView = findViewById(R.id.textInfo) as TextView
 
-        dataMatter.add(subject);
-        dataDay.add(data.toString());
         if(off == 1) {
+            dataMatter.add(subject);
+            dataDay.add(data.toString());
             val success = Intent(this, success::class.java)
             startActivity(success);
-        }
+        } else //dispara a mensagem de erro
+            if(off == 0) {
+                txtInfo.setText(msg)
+            }
     }
 }
