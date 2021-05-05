@@ -23,7 +23,7 @@ import java.util.*
 private var locationManager : LocationManager? = null
 
 private val locationPermissionCode = 2
-
+var off = 1
 val dist = FloatArray(1)
 val data = Date()
 var subject = ""
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             0f,
             locationListener)
 
-        var off = 1
+
         val formataData = SimpleDateFormat("dd/MM/yyyy")
         val formataDataHora  = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
         val hour = SimpleDateFormat("HH:mm:ss")
@@ -95,7 +95,6 @@ class MainActivity : AppCompatActivity() {
 
 
         if(off == 0) {
-            btn.isInvisible = true;
             txtInfo.setText(msg)
         }
 
@@ -146,8 +145,9 @@ class MainActivity : AppCompatActivity() {
 
         dataMatter.add(subject);
         dataDay.add(data.toString());
-
-        val success = Intent(this, success::class.java)
-        startActivity(success);
+        if(off == 1) {
+            val success = Intent(this, success::class.java)
+            startActivity(success);
+        }
     }
 }
