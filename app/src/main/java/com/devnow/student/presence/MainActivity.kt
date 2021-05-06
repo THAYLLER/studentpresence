@@ -80,12 +80,12 @@ class MainActivity : AppCompatActivity() {
             //Nessa validação  é verificado se ta dentro do horario da aula
             var dMin = hour.parse("19:10:00")
             var dMax = hour.parse("20:35:00")
-            if(horaFormatada >= hour.format(dMin).toString() && horaFormatada <= hour.format(dMax).toString() ) {
-                off = 1;
-            } else {
-                off = 0;
-                msg = "Só é possível marcar presença no horário da aula\n"
-            }
+//            if(horaFormatada >= hour.format(dMin).toString() || horaFormatada >= hour.format(dMax).toString() ) {
+//                off = 1;
+//            } else {
+//                off = 0;
+//                msg = "Só é possível marcar presença no horário da aula\n"
+//            }
         }
 
 
@@ -104,8 +104,11 @@ class MainActivity : AppCompatActivity() {
 
             val txtLa: TextView = findViewById(R.id.textLa) as TextView
             val txtLo: TextView = findViewById(R.id.textLo) as TextView
-            txtLa.setText(location.latitude.toString())
-            txtLo.setText(location.longitude.toString())
+            txtLa.setText("4070444666666666")
+            txtLo.setText("-73444666666666")
+
+//            txtLa.setText(location.latitude.toString())
+//            txtLo.setText(location.longitude.toString())
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
@@ -155,7 +158,7 @@ class MainActivity : AppCompatActivity() {
         if(off == 1) {
             //validação de localização
             //Aqui é verificado se ta proximo da localização da faculdade
-            if(dist[0].toDouble() == (1000000).toDouble()) {
+            //if(dist[0].toDouble() == (1000000).toDouble()) {
                 if (dist[0] / 1000 > 1) {
 
                     off = 1;
@@ -163,10 +166,10 @@ class MainActivity : AppCompatActivity() {
                     off = 0;
                     msg = "Não é possível marcar presença fora da localização da Unicid"
                 }
-            }else {
-                off = 0;
-                msg = "Não é possível marcar presença fora da localização da Unicid"
-            }
+//            }else {
+//                off = 0;
+//                msg = "Não é possível marcar presença fora da localização da Unicid"
+//            }
         }
 
         if(off != 0) {
