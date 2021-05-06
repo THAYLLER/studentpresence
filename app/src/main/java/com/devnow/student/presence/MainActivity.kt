@@ -11,6 +11,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -29,6 +30,7 @@ val dist = FloatArray(1)
 val data =  Calendar.getInstance().getTime();
 var subject = ""
 var msg = ""
+var la = 0.0
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("WrongConstant")
@@ -37,16 +39,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                locationPermissionCode)
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationPermissionCode)
         }
-        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-            0L,
-            0f,
-            locationListener)
+        locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
 
 
         val formataData = SimpleDateFormat("dd/MM/yyyy")
@@ -60,6 +56,8 @@ class MainActivity : AppCompatActivity() {
         val txt: TextView = findViewById(R.id.textSubject) as TextView
         val txtDate: TextView = findViewById(R.id.textDate) as TextView
         val btn: Button = findViewById(R.id.button) as Button;
+        val txtLa: TextView = findViewById(R.id.textLa) as TextView
+        val txtLo: TextView = findViewById(R.id.textLo) as TextView
 
         subject = "NENHUMA AULA NESSE DIA"
 
@@ -90,22 +88,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        if(off == 1) {
-            //validação de localização
-            //Aqui é verificado se ta proximo da localização da faculdade
-    //        if(dist[0].toDouble() == (1000000).toDouble()) {
-    //            if (dist[0] / 1000 > 1) {
-    //
-    //                off = 1;
-    //            }else {
-    //                off = 0;
-    //                msg = "Não é possível marcar presença fora da localização da Unicid"
-    //            }
-    //        }else {
-    //            off = 0;
-    //            msg = "Não é possível marcar presença fora da localização da Unicid"
-    //        }
-        }
+
+
 
 
 
@@ -118,13 +102,10 @@ class MainActivity : AppCompatActivity() {
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
 
-
-            Location.distanceBetween(
-                location.latitude,
-                location.longitude,
-                -23.536286105990403,
-                -46.560337171952156,
-                dist)
+            val txtLa: TextView = findViewById(R.id.textLa) as TextView
+            val txtLo: TextView = findViewById(R.id.textLo) as TextView
+            txtLa.setText(location.latitude.toString())
+            txtLo.setText(location.longitude.toString())
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
@@ -155,6 +136,38 @@ class MainActivity : AppCompatActivity() {
         val dataMatter = ArrayList<String>();
         val dataDay = ArrayList<String>();
         val txtInfo: TextView = findViewById(R.id.textInfo) as TextView
+
+        val txtLa: TextView = findViewById(R.id.textLa) as TextView
+        val txtLo: TextView = findViewById(R.id.textLo) as TextView
+
+        val la = txtLa.text.toString().toDoubleOrNull()
+        val lo =  txtLo.text.toString().toDoubleOrNull()
+
+        if (lo != null && la != null) {
+            Location.distanceBetween(
+                    la,
+                    lo,
+                    -23.536286105990403,
+                    -46.560337171952156,
+                    dist)
+        }
+
+        if(off == 1) {
+            //validação de localização
+            //Aqui é verificado se ta proximo da localização da faculdade
+            if(dist[0].toDouble() == (1000000).toDouble()) {
+                if (dist[0] / 1000 > 1) {
+
+                    off = 1;
+                }else {
+                    off = 0;
+                    msg = "Não é possível marcar presença fora da localização da Unicid"
+                }
+            }else {
+                off = 0;
+                msg = "Não é possível marcar presença fora da localização da Unicid"
+            }
+        }
 
         if(off != 0) {
             dataMatter.add(subject);
